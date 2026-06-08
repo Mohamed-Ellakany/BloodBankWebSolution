@@ -1,0 +1,112 @@
+﻿@model DonorFormViewModel
+@{
+    ViewData["Title"] = "Add Donor";
+}
+
+
+<div class="alert bg-light-primary border border-dark border-3 border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-10 align-items-center">
+    <!--begin::Icon-->
+    <span class="svg-icon svg-icon-1 mx-3 ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-bag-heart-fill" viewBox="0 0 16 16">
+            <path d="M11.5 4v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m0 6.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132"></path>
+        </svg>
+    </span>    <!--begin::Content-->
+    <div class="d-flex flex-column pe-0 pe-sm-10 align-items-center">
+        <h5 class="m-0"> Add Donor</h5>
+    </div>
+    <!--end::Content-->
+
+</div>
+
+<div class=" card Shadow-sm">
+    <div class="card-body ">
+        <form method="post" asp-action="Create">
+
+       
+            <div class="mb-7">
+                <div class="form-floating mb-2">
+                    <input class="form-control" asp-for="Name" />
+                    <label asp-for="Name"></label>
+                </div>
+                <span asp-validation-for="Name" class="text-danger d-block"></span>
+            </div> 
+            
+            <div class="mb-7">
+                <div class="form-floating mb-2">
+                    <input class="form-control" asp-for="Age"  value="30" />
+                    <label asp-for="Age"></label>
+                </div>
+                <span asp-validation-for="Age" class="text-danger d-block"></span>
+            </div>
+            
+            
+            <div class="mb-7">
+                <div class="form-floating mb-2">
+                    <input class="form-control" asp-for="PhoneNum" placeholder="phone number" />
+                    <label asp-for="PhoneNum"></label>
+                </div>
+                <span asp-validation-for="PhoneNum" class="text-danger d-block"></span>
+            </div>
+            
+            <div class="mb-7">
+                <div class="form-floating mb-2">
+                    <input class="form-control" asp-for="NationalId" placeholder="National Id" />
+                    <label asp-for="NationalId"></label>
+                </div>
+                <span asp-validation-for="NationalId" class="text-danger d-block"></span>
+            </div>
+
+              <div class="mb-7">
+                <div class="form-floating mb-2">
+                    <input type="date" class="form-control" asp-for="DonationDate" placeholder="Donation Date" />
+                    <label asp-for="DonationDate"></label>
+                </div>
+                <span asp-validation-for="DonationDate" class="text-danger d-block"></span>
+            </div>
+
+            <div class=" mb-7">
+                <select class="form-select" asp-for="CityId" asp-items="@Model.Cites">
+                    <option disabled value="">Select City</option>
+                    <label asp-for="Cites"></label>
+                </select>
+                <span asp-validation-for="CityId" class="text-danger d-block"></span>
+            </div>
+
+            <div class=" mb-7">
+                <select class="form-select" asp-for="BloodBankId" asp-items="@Model.BloodBanks">
+                    <option disabled value="@null">Select Bank</option>
+                    <label asp-for="BloodBanks"></label>
+                </select>
+                <span asp-validation-for="BloodBankId" class="text-danger d-block"></span>
+            </div>
+
+
+            <div class=" mb-7">
+                <select class="form-select" asp-for="BloodTypeId" asp-items="@Model.BloodTypes">
+                    <option value="@null">Select Blood Type</option>
+                    <label asp-for="BloodTypes"></label>
+                </select>
+                <span asp-validation-for="BloodTypeId" class="text-danger d-block"></span>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primary hover-scale me-3">
+                <span class="indicator-label">
+                    Save
+                </span>
+                <span class="indicator-progress">
+                    please wait...<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+            <a class="btn btn-secondary hover-scale" asp-action="Index">Cancel</a>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/AddDonorForm.js" asp-append-version="true"></script>
+
+}

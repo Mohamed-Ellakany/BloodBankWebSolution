@@ -1,0 +1,11 @@
+﻿global using Microsoft.AspNetCore.Mvc;
+global using AutoMapper;
+global using BloodBank.Domain.Entities;
+global using BloodBankWeb.Core.ViewModels;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc.Rendering;
+global using Microsoft.EntityFrameworkCore;
+global using System.ComponentModel.DataAnnotations;
+global using BloodBank.Domain.Consts;
+global using BloodBank.Application.Common.Interfaces;
+global using BloodBank.Infrastructure.Persistence;

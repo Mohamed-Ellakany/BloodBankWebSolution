@@ -1,0 +1,146 @@
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<!--begin::Row-->
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+    <!--begin::Col-->
+    <div class="col">
+        <!--begin::Engage widget 6-->
+        <div class="card flex-grow-1 bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 " style="background-color:#020202;background-image:url('/assets/images/BloodBankCover.jpg'); background-size: cover;">
+            <!--begin::Body-->
+            <div class="card-body d-flex justify-content-between flex-column ps-xl-18 ">
+                <!--begin::Heading-->
+                <div class="mb-20 p-8 w-fit-content glass">
+                    <!--begin::Title-->
+                    <h3 class="fw-bold text-white fs-5x mb-5 ms-n1 custom-header">
+                        <img src="~/assets/images/shoryan---logo[1].png" class="h-100px" />
+                        </h3>
+                    <!--end::Title-->
+                    <!--begin::Description-->
+                    <span class="fw-bold fs-4 mb-8 d-block lh-0 text-white">For Better Life</span>
+                    <!--end::Description-->
+                    <!--begin::Items-->
+                    <div class="d-flex align-items-center">
+
+                        <!--begin::Item-->
+                        <div class="d-flex align-items-center me-5">
+                            <!--begin::Icon-->
+                            <i class="las la-briefcase fs-2 text-white me-3" ></i>
+
+                            <!--end::Icon-->
+                            <!--begin::Info-->
+                            <span class="fw-semibold text-white fs-6" >@Model.NumberOfBloodBags</span>
+                            <!--end::Info-->
+                        </div>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <div class="d-flex align-items-center">
+                            <!--begin::Icon-->
+                            <i class="las la-user-friends fs-2 text-white me-3"></i>
+
+                            <!--end::Icon-->
+                            <!--begin::Info-->
+                            <span class="fw-semibold text-white fs-6">@Model.NumberOfDonors</span>
+                            <!--end::Info-->
+                        </div>
+                        <!--end::Item-->
+                    </div>
+                    <!--end::Items-->
+                </div>
+                <!--end::Heading-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Engage widget 6-->
+    </div>
+    <!--end::Col-->
+</div>
+<!--end::Row-->
+<!--begin::Row-->
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+    <!--begin::Col-->
+    <div class="col-md-12">
+        <!--begin::Player widget 1-->
+        <div class="card card-flush h-xl-100">
+            <!--begin::Header-->
+            <div class="card-header pt-7  ">
+                <!--begin::Title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bold text-dark">All Blood In stock</span>
+                </h3>
+                <!--end::Title-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-7 row justify-content-center gap-5">
+                <!--begin::Row-->
+                @foreach (var blood in Model.BloodCounts)
+                {
+                    <div class="card shadow-sm col-md-2 border border-1 border-dashed border-primary ">
+                        <div class="card-header">
+                            <h3 class="card-title">@blood.BloodTypeName</h3>
+                          
+                        </div>
+                        <div class="card-body p-3">
+                            @if(blood.Count == 0)
+                            {
+                                <p>no items in stock</p>
+                            }
+                            else{
+
+                                <div class="fs-2 fw-bold counted" data-kt-countup="true" data-kt-countup-value="@blood.Count" data-kt-countup-prefix="$" data-kt-initialized="0">@blood.Count bag</div>
+                            }
+                        </div>
+                       
+                    </div>
+                }
+            </div>
+            <!--end::Card body-->
+        </div>
+        <!--end::Player widget 1-->
+    </div>
+    <!--end::Col-->
+
+
+</div>
+<!--end::Row-->
+<!--begin::Row-->
+<div class="row g-5 g-xl-10">
+    <!--begin::Col-->
+    <div class="col-md-12">
+        <!--begin::Tables widget 13-->
+        <div class="card card-flush h-xl-100">
+            <!--begin::Header-->
+            <div class="card-header pt-7">
+                <!--begin::Title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bold text-gray-800">Insights</span>
+                    <span class="text-gray-400 mt-1 fw-semibold fs-6"></span>
+                </h3>
+                <!--end::Title-->
+               
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body pt-3 pb-4 mb-5">
+                <div id="chart" ></div>
+            </div>
+            <!--end: Card Body-->
+        </div>
+        <!--end::Tables widget 13-->
+    </div>
+    <!--end::Col-->
+   
+</div>
+<!--end::Row-->
+@section Scripts
+{
+
+    
+    <script src="~/js/chartsjs.js" asp-append-version="true" ></script>
+ 
+
+}

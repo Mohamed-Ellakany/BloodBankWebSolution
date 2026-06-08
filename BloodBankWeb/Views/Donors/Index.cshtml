@@ -1,0 +1,105 @@
+﻿@model IEnumerable<DonorViewModel>
+@{
+    ViewData["Title"] = "Donors";
+}
+
+
+@section Styles {
+    <link href="~/assets/plugins/datatables/datatables.bundle.css" rel="stylesheet" />
+}
+
+
+<div class="alert bg-light-primary border border-primary border-3 border-dashed d-flex justify-content-between flex-sm-row w-100 p-5 mb-10 align-items-center ">
+    <div class="d-flex align-items-center">
+        <!--begin::Icon-->
+        <span class="svg-icon svg-icon-1 mx-3 ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-bag-heart-fill" viewBox="0 0 16 16">
+                <path d="M11.5 4v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m0 6.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132"></path>
+            </svg>
+        </span>    <!--begin::Content-->
+        <div class="d-flex flex-column pe-0 pe-sm-10 align-items-center">
+            <h5 class="m-0">Donors</h5>
+        </div>
+        <!--end::Content-->
+    </div>
+    <div>
+        <a class="btn btn-primary hover-scale me-3" asp-action="Create">
+            <span class="indicator-label">
+                Add
+            </span>
+            <span class="indicator-progress">
+                please wait...<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+        </a>
+    </div>
+</div>
+
+
+
+<div class="card shadow-sm">
+    <partial name="_DataTablesCardHeader" />
+    <div class="card-body pt-0">
+
+        <div class="table-responsive">
+            <table class="table table-row-dashed table-row-gray-300 gy-2 align-middle js-datatable" data-document-title="Donors Report">
+                <thead>
+                    <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase">
+
+                        <th>Banks</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Blood Type</th>
+                        <th>Phone Number</th>
+                        <th>Donation Date</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td>
+                                <div class="alert alert-info d-flex align-items-center p-5 ">
+                                    <i class="ki-duotone ki-shield-tick fs-2hx text-info me-4">
+                                        <span class="path1"></span><span class="path2"></span>
+                                    </i>
+                                    <div class="d-flex flex-column">
+                                        <h4 class="mb-1 text-info">There are no Blood Bags available.</h4>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr >
+                                <td class="py-4">@item.Banks</td>
+                                <td class="py-4">@item.Name</td>
+                                <td class="py-4">@item.Age</td>
+                                <td class="py-4">@item.BloodType</td>
+                                <td class="py-4">@item.PhoneNum</td>
+                                <td class="py-4">@item.DonationDate.ToString("dd/MM/yyyy")</td>
+
+                               
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+@section Plugins {
+    <script src="~/assets/plugins/datatables/datatables.bundle.js"></script>
+}
