@@ -68,7 +68,7 @@ namespace BloodBankWeb.Controllers
             //check blood type 
             var Donor =_donorsServices.GetById(viewModel.DonorId);
 
-            if (Donor.BloodBags.Any() )
+            if (Donor?.BloodBags != null && Donor.BloodBags.Count != 0)
             {
 
                 //todo : check last date of donation
@@ -87,7 +87,7 @@ namespace BloodBankWeb.Controllers
 
             if (result != 0)
             {
-                Donor.DonationDate = DateTime.Now;
+                Donor!.DonationDate = DateTime.Now;
                 _donorsServices.UpdateDonationDate(Donor);
             }
 
@@ -115,8 +115,8 @@ namespace BloodBankWeb.Controllers
 
             var donorSelectList = donors.Select(d => new SelectListItem
             {
-                Value = d.Id.ToString(),
-                Text = d.Name
+                Value = d?.Id.ToString(),
+                Text = d?.Name
             }).ToList();
 
             return Ok(donorSelectList);

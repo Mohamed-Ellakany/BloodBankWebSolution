@@ -72,9 +72,9 @@ namespace BloodBankWeb.Controllers
             //              .Find(d => d.Id == viewModel.DonorId
             //              , include: B => B.Include(x => x.BloodType)
             //              .Include(x => x.Plasmas));
-            var bloodbags = _bloodSevrice.GetAllInTypeInBank(viewModel.BloodTypeId, _user!.BloodBankId);
+            var bloodbags = _bloodSevrice.GetAllInTypeInBank(viewModel.BloodTypeId, _user!.BloodBankId) ?? [];
             
-            int SumOfBloodBagsWithType = bloodbags.Sum(b => b.Quantity)/2;
+            int SumOfBloodBagsWithType = bloodbags.Sum(b => b.Quantity)/2 ;
 
             //if (Donor?.BloodType.Id != viewModel.BloodTypeId)
             //{

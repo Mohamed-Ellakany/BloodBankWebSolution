@@ -14,7 +14,7 @@ namespace BloodBankWeb.Mapping
 
             CreateMap<BloodBag, BloodViewModel>()
                 .ForMember(dest => dest.BloodBank, opt => opt.MapFrom(b => b.BloodBank.Name))
-                .ForMember(dest => dest.Donor, opt => opt.MapFrom(b => b.Donor.Name))
+                .ForMember(dest => dest.Donor, opt => opt.MapFrom(b => b.Donor!.Name))
                 .ForMember(dest => dest.BloodType, opt => opt.MapFrom(b => b.BloodType.Name));
 
             //Plasma 
@@ -66,7 +66,7 @@ namespace BloodBankWeb.Mapping
             CreateMap<City, SelectListItem>()
              .ForMember(dest => dest.Value, opt => opt.MapFrom(D => D.Id))
              .ForMember(dest => dest.Text, opt => opt.MapFrom(D => D.Name));
-
+                
             CreateMap<City, CityResponse>();
             CreateMap<CityResponse, SelectListItem>()
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Id.ToString()))
@@ -74,10 +74,10 @@ namespace BloodBankWeb.Mapping
 
             //Users 
             CreateMap<ApplicationUser, UserViewModel>()
-               .ForMember(dest => dest.BloodType, opt => opt.MapFrom(b => b.BloodType.Name));
+               .ForMember(dest => dest.BloodType, opt => opt.MapFrom(b => b.BloodType!.Name));
 
             CreateMap<ApplicationUser,UserFormViewModel>()
-                 .ForMember(dest => dest.SelectedBloodType, opt => opt.MapFrom(  b => b.BloodType.Id))
+                 .ForMember(dest => dest.SelectedBloodType, opt => opt.MapFrom(  b => b.BloodType!.Id))
                  .ReverseMap() ;
 
 

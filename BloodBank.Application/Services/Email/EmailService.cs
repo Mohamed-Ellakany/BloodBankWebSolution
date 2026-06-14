@@ -19,9 +19,12 @@ namespace BloodBank.Application.Services.Email
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            var Email = _configuration.GetValue<string>("EmailSettings:Email");
-            var Password = _configuration.GetValue<string>("EmailSettings:Password");
-            var Host = _configuration.GetValue<string>("EmailSettings:Host");
+            var Email = _configuration.GetValue<string>("EmailSettings:Email")
+                ?? throw new InvalidOperationException("Email setting 'EmailSettings:Email' is missing.");
+            var Password = _configuration.GetValue<string>("EmailSettings:Password")
+                ?? throw new InvalidOperationException("Email setting 'EmailSettings:Password' is missing.");
+            var Host = _configuration.GetValue<string>("EmailSettings:Host")
+                ?? throw new InvalidOperationException("Email setting 'EmailSettings:Host' is missing.");
             var Port = _configuration.GetValue<int>("EmailSettings:Port");
 
 

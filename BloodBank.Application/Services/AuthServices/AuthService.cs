@@ -61,7 +61,7 @@ namespace BloodBank.Application.Services.AuthServices
         private bool VerifyOtp(string userEmail, string otp, string otpType)
         {
             var cacheKey = $"{otpType}_{userEmail}";
-            return _memoryCache.TryGetValue(cacheKey, out string storedOtp) && storedOtp == otp;
+            return _memoryCache.TryGetValue(cacheKey, out string? storedOtp) && storedOtp == otp;
         }
 
         private void RemoveOtp(string userEmail, string otpType)
@@ -83,7 +83,7 @@ namespace BloodBank.Application.Services.AuthServices
                 return Result.Failure<AuthResponse>(result.IsNotAllowed ? UserErrors.EmailNotConfirmed : UserErrors.InvalidCredentials);
 
             var (token, expiresIn) = _jwtProvider.GenerateToken(user);
-            return Result.Success(new AuthResponse(user.Id, user.Email, user.FullName, token, expiresIn));
+            return Result.Success(new AuthResponse(user.Id, user.Email!, user.FullName, token, expiresIn));
         }
 
         public async Task<Result> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default)
@@ -121,8 +121,8 @@ namespace BloodBank.Application.Services.AuthServices
             await _userManager.AddToRoleAsync(user, AppRoles.User);
 
             var otp = GenerateOtp();
-            StoreOtp(user.Email, otp, "EmailConfirmation");
-            BackgroundJob.Enqueue(() => SendConfirmationEmail( user.Email, user.FullName, otp));
+            StoreOtp(user.Email!, otp, "EmailConfirmation");
+            BackgroundJob.Enqueue(() => SendConfirmationEmail(user.Email!, user.FullName, otp));
 
             return Result.Success();
         }
@@ -148,6 +148,9 @@ namespace BloodBank.Application.Services.AuthServices
                 return verifyResult;
 
             var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user is null)
+                return Result.Failure(UserErrors.InvalidCode);
+
             user.EmailConfirmed = true;
             var result = await _userManager.UpdateAsync(user);
 
@@ -167,8 +170,8 @@ namespace BloodBank.Application.Services.AuthServices
                 return Result.Failure(UserErrors.InvalidCredentials);
 
             var otp = GenerateOtp();
-            StoreOtp(user.Email, otp, "EmailConfirmation");
-            BackgroundJob.Enqueue(() => SendConfirmationEmail( user.Email, user.FullName, otp));
+            StoreOtp(user.Email!, otp, "EmailConfirmation");
+            BackgroundJob.Enqueue(() => SendConfirmationEmail(user.Email!, user.FullName, otp));
 
             return Result.Success();
         }
@@ -180,9 +183,9 @@ namespace BloodBank.Application.Services.AuthServices
                 return Result.Success(); 
 
             var otp = GenerateOtp();
-            StoreOtp(user.Email, otp, "PasswordReset");
+            StoreOtp(user.Email!, otp, "PasswordReset");
 
-            BackgroundJob.Enqueue(() => SendResetPasswordEmail( user.Email, user.FullName, otp));
+            BackgroundJob.Enqueue(() => SendResetPasswordEmail(user.Email!, user.FullName, otp));
 
             return Result.Success();
         }
@@ -204,7 +207,7 @@ namespace BloodBank.Application.Services.AuthServices
 
             if (result.Succeeded)
             {
-                RemoveOtp(user.Email, "PasswordReset");
+                RemoveOtp(user.Email!, "PasswordReset");
                 return Result.Success();
             }
 

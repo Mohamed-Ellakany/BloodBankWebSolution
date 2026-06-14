@@ -118,11 +118,10 @@ namespace BloodBank.Application.Services.AiServices
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseContent = await response.Content.ReadFromJsonAsync<List<RecommendedResponse>>();
+                    var responseContent = await response.Content.ReadFromJsonAsync<List<RecommendedResponse>>() ?? [];
 
                     var allBanks = _bloodBankServices.GetAll();
                     var allBloodTypes = _bloodTypeServices.GetAll();
-                    var allBloodStock = _bloodSevrice.GetAll();
 
                     responseContent = responseContent.Where(item =>
                     {
@@ -133,7 +132,7 @@ namespace BloodBank.Application.Services.AiServices
                             x.Name.Equals(item.BloodType, StringComparison.OrdinalIgnoreCase));
                         if (bloodType == null) return false;
 
-                        var availableBags = _bloodSevrice.GetAllInTypeInBank(bloodType.Id, bank.Id).Where(x=>!x.IsDeleted);
+                        var availableBags = _bloodSevrice.GetAllInTypeInBank(bloodType.Id, bank.Id) ?? [];
                         var sum = availableBags.Sum(b => b.Quantity);
 
                         return sum >= request.Quantity;
@@ -141,7 +140,7 @@ namespace BloodBank.Application.Services.AiServices
                     }).ToList();
                                       
 
-                    if (responseContent is null || responseContent.Count == 0)
+                    if (responseContent.Count == 0)
                     {
                         return Result.Failure<Recommended>(UserErrors.NoData);
 
@@ -197,7 +196,7 @@ namespace BloodBank.Application.Services.AiServices
                 {
                     Disease = r.GetType().GetProperty("Disease")?.GetValue(r)?.ToString() ?? "Unknown",
                     Prevalence = (double?)r.GetType().GetProperty("Prevalence")?.GetValue(r),
-                    donationStatus = r.GetType().GetProperty("DonationStatus")?.GetValue(r)?.ToString()
+                    donationStatus = r.GetType().GetProperty("DonationStatus")?.GetValue(r)?.ToString() ?? string.Empty
                 }).ToList()
             });
 

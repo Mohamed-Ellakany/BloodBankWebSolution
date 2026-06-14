@@ -15,7 +15,7 @@
 
         public string NationalId { get; set; } = null!;
 
-        public string City { get; set; }
+        public string City { get; set; } = string.Empty;
 
         public DateTime DonationDate { get; set; }
 

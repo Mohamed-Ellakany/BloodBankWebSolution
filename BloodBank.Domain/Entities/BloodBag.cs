@@ -11,7 +11,7 @@ namespace BloodBank.Domain.Entities
         [ForeignKey("BloodBank")]
         public int BloodBankId { get; set; }
 
-        public BloodBank BloodBank { get; set; }
+        public BloodBank BloodBank { get; set; } = null!;
 
 
         [ForeignKey("BloodType")]

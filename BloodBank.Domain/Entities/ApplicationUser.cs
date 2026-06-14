@@ -18,10 +18,10 @@
 
         public int CityId { get; set; }
 
-        public City City { get; set; }
+        public City City { get; set; } = null!;
 
 
         public int BloodBankId { get; set; }
-        public BloodBank BloodBank { get; set; }
+        public BloodBank BloodBank { get; set; } = null!;
     }
 }

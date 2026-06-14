@@ -19,7 +19,7 @@ namespace BloodBank.Domain.Entities
 
         public int CityId { get; set; }
 
-        public City City { get; set; }
+        public City City { get; set; } = null!;
 
 
         public ICollection<BloodBag> BloodBags { get; set; } = new HashSet<BloodBag>();

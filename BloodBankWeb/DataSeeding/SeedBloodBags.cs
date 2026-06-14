@@ -4,8 +4,18 @@ public static class SeedBloodBags
     {
         if (await db.BloodBags.AnyAsync()) return;
 
-        var bloodBankIds = Enumerable.Range(1, 202).ToList();
-        var bloodTypeIds = Enumerable.Range(1, 8).ToList();
+        var bloodBankIds = await db.BloodBanks
+            .AsNoTracking()
+            .Select(bank => bank.Id)
+            .ToListAsync();
+
+        var bloodTypeIds = await db.BloodTypes
+            .AsNoTracking()
+            .Select(type => type.Id)
+            .ToListAsync();
+
+        if (bloodBankIds.Count == 0 || bloodTypeIds.Count == 0)
+            return;
 
         int donorCounter = 1;
         DateTime now = new DateTime(2025, 6, 30);

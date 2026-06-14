@@ -10,7 +10,7 @@ namespace BloodBank.Application.Common.ModelContracts.AI
     {
         public int TotalItems { get; set; }
 
-        public List<ResultDto> Results { get; set; }
+        public List<ResultDto> Results { get; set; } = [];
 
 
 
@@ -18,11 +18,11 @@ namespace BloodBank.Application.Common.ModelContracts.AI
 
     public class ResultDto
     {
-        public string Disease { get; set; }
+        public string Disease { get; set; } = string.Empty;
 
         public double? Prevalence { get; set; }
 
-        public string donationStatus { get; set; }
+        public string donationStatus { get; set; } = string.Empty;
 
     }
 

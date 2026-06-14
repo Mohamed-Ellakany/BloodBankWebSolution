@@ -18,7 +18,7 @@ namespace BloodBank.Api.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var result = await _reservationService.BookAppointment(userId,reservation);
+            var result = await _reservationService.BookAppointment(userId! ,reservation);
 
             return result.IsSuccess? Ok() : result.ToProblem();
 

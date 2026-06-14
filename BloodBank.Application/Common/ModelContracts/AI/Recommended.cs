@@ -8,9 +8,9 @@ namespace BloodBank.Application.Common.ModelContracts.AI
 {
     public class Recommended
     {
-        public string  Message { get; set; }
-        public List<RecommendedResponse> Response { get; set; }
-        public string Governorate { get; set; }
-        public string BloodType { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public List<RecommendedResponse> Response { get; set; } = [];
+        public string Governorate { get; set; } = string.Empty;
+        public string BloodType { get; set; } = string.Empty;
     }
 }

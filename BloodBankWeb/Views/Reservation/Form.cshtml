@@ -26,10 +26,10 @@
 
 
             <div class="mb-7">
-                <select class="form-select" asp-for="BloodTypeId" asp-items="@Model.BloodTypes" disabled="@(Model.BloodTypeId != null)">
+                <select class="form-select" asp-for="BloodTypeId" asp-items="@Model.BloodTypes" disabled="@(Model.BloodTypeId != 0)">
                     <option value="@null">Select Blood Type</option>
                 </select>
-                @if (Model.BloodTypeId != null)
+                @if (Model.BloodTypeId != 0)
                 {
                     <input type="hidden" asp-for="BloodTypeId" />
                 }

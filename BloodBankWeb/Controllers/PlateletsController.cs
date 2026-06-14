@@ -15,25 +15,13 @@ using BloodBank.Application.Services.DonorBanks;
 namespace BloodBankWeb.Controllers
 {
     [Authorize(Roles = AppRoles.subAdmin)]
-    public class PlateletsController : Controller
+    public class PlateletsController(IMapper mapper, IPlateletsService plateletsService, IBloodTypesServices bloodTypesServices, IBloodBankServices bloodBankServices, IBloodSevrice bloodSevrice) : Controller
 	{
-        private readonly IPlateletsService _plateletsService;
-        private readonly IDonorsServices _donorsServices;
-        private readonly IBloodTypesServices _bloodTypesServices;
-        private readonly IBloodBankServices _bloodBankServices;
-        private readonly IDonorBanksServices _donorBanksServices; private readonly IMapper _mapper;
-        private readonly IBloodSevrice _bloodSevrice;
-
-        public PlateletsController(IMapper mapper, IPlateletsService plateletsService, IDonorsServices donorsServices, IBloodTypesServices bloodTypesServices, IBloodBankServices bloodBankServices, IBloodSevrice bloodSevrice)
-        {
-
-            _mapper = mapper;
-            _plateletsService = plateletsService;
-            _donorsServices = donorsServices;
-            _bloodTypesServices = bloodTypesServices;
-            _bloodBankServices = bloodBankServices;
-            _bloodSevrice = bloodSevrice;
-        }
+        private readonly IPlateletsService _plateletsService = plateletsService;
+        private readonly IBloodTypesServices _bloodTypesServices = bloodTypesServices;
+        private readonly IBloodBankServices _bloodBankServices = bloodBankServices;
+        private readonly IMapper _mapper = mapper;
+        private readonly IBloodSevrice _bloodSevrice = bloodSevrice;
 
         [HttpGet]
         public IActionResult Index()
@@ -79,7 +67,7 @@ namespace BloodBankWeb.Controllers
             //      , include: B => B.Include(x => x.BloodType)
             //      .Include(x => x.Platelets));
 
-            var bloodbags = _bloodSevrice.GetAllInTypeInBank(viewModel.BloodTypeId, viewModel.BloodBankId);
+            var bloodbags = _bloodSevrice.GetAllInTypeInBank(viewModel.BloodTypeId, viewModel.BloodBankId) ?? [];
 
 
             if (viewModel.Quantity > Math.Floor((decimal)bloodbags.Count() / 6))

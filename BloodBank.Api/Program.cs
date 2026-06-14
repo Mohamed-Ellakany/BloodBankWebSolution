@@ -36,7 +36,7 @@ namespace BloodBank.Api
 
             builder.Services.AddHttpClient<AIModelService>(client =>
             {
-                client.BaseAddress = new Uri(builder.Configuration["AIModel:ApiUrl"]);
+                client.BaseAddress = new Uri(builder.Configuration["AIModel:ApiUrl"]!);
             });
 
             //serilog

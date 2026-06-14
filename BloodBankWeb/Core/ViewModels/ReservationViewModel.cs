@@ -13,9 +13,9 @@
 
         public int BloodBankId { get; set; }
 
-        public string BloodBankName { get; set; }
+        public string BloodBankName { get; set; } = string.Empty;
 
-        public string ApplicationUser { get; set; }
+        public string ApplicationUser { get; set; } = string.Empty;
 
     }
 }

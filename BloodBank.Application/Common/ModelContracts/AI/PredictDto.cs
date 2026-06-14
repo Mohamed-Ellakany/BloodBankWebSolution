@@ -2,7 +2,7 @@
 {
     public class PredictDto
     {
-        public string Disease { get; set; }
+        public string Disease { get; set; } = string.Empty;
         public double? Prevalence { get; set; }
     }
 

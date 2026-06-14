@@ -12,11 +12,11 @@
 
         public int BloodBankId { get; set; }
 
-        public BloodBank BloodBank { get; set; }
+        public BloodBank BloodBank { get; set; } = null!;
 
         public ApplicationUser ApplicationUser { get; set; } = default!;
 
-        public string ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; } = null!;
 
 
     }

@@ -27,13 +27,17 @@ namespace BloodBankWeb.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            
+             
             ViewBag.BloodBankOfUser = _user!.BloodBankId;
 
+            var now = DateTime.Now;
+            var today = DateOnly.FromDateTime(now);
+            var currentTime = TimeOnly.FromDateTime(now);
+
             var reservations = await _dbContext.Reservations.Include(x => x.ApplicationUser).Include(x => x.BloodBank)
-               .Where(x => !x.IsDonate &
-               x.DateOnly > DateOnly.FromDateTime(DateTime.Now) &
-               x.TimeOnly > TimeOnly.FromDateTime(DateTime.Now)
+               .Where(x => !x.IsDonate &&
+               (x.DateOnly > today ||
+               (x.DateOnly == today && x.TimeOnly > currentTime))
                ).ToListAsync();
             var mappedReservations = _mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationViewModel>>(reservations);
             return View(mappedReservations);
@@ -98,7 +102,7 @@ namespace BloodBankWeb.Controllers
 
             if (donor is not null)
             {
-                    if (donor.DonationDate == default & donor.DonationDate.AddDays(90) > DateTime.Now)
+                    if (donor.DonationDate != default && donor.DonationDate.AddDays(90) > DateTime.Now)
                     {
                         ModelState.AddModelError(nameof(request.BloodTypeId), errorMessage: "60 days must pass since the last donation ");
                         return View("Index");
@@ -112,7 +116,7 @@ namespace BloodBankWeb.Controllers
                     Age = user.Age ?? 0,
                     CityId = user.CityId,
                     NationalId = user.NationalId,
-                    PhoneNum = user.PhoneNumber,
+                    PhoneNum = user.PhoneNumber??"01000000000",
                     BloodTypeId = request.BloodTypeId,
                     DonationDate = DateTime.Now
                 });
@@ -139,7 +143,11 @@ namespace BloodBankWeb.Controllers
             if (!(donor.DonorBanks.Any(x => x.BloodBankId == _user!.BloodBankId)))
                 donor.DonorBanks.Add(new DonorBank { BloodBankId = _user!.BloodBankId });
 
-            _dbContext.Reservations.Where(X=>X.Id == request.Id ).FirstOrDefault()!.IsDonate = true;
+            var reservation = await _dbContext.Reservations.FirstOrDefaultAsync(x => x.Id == request.Id);
+            if (reservation is null)
+                return BadRequest();
+
+            reservation.IsDonate = true;
 
             _dbContext.SaveChanges();
 

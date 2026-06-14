@@ -8,7 +8,7 @@ namespace BloodBank.Application.Common.ModelContracts.AI
 {
         public class DiseaseRequest
         {
-            public List<PredictDto> Diseases { get; set; }
+            public List<PredictDto> Diseases { get; set; } = [];
         }
     
 }

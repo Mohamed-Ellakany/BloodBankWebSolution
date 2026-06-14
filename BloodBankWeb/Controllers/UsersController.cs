@@ -83,7 +83,7 @@ namespace BloodBankWeb.Controllers
 
             ApplicationUser user = new()
             {
-                FullName = model.UserName,
+                FullName = model.FullName,
                 UserName = model.UserName,
                 Email = model.Email,
                 NationalId = model.NationalId,
@@ -96,7 +96,7 @@ namespace BloodBankWeb.Controllers
             };
 
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password!);
 
             if (result.Succeeded)
             {

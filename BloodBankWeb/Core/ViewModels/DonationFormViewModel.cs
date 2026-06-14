@@ -22,7 +22,7 @@
         public int Quantity { get; set; }
 
 
-        public string ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; } = string.Empty;
 
   
 

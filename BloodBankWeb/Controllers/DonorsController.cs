@@ -116,7 +116,7 @@ namespace BloodBankWeb.Controllers
         public IActionResult GetBanks(int cityId)
         {
 
-            var Banks = _bloodBankServices.GetAllInCity(cityId);
+            var Banks = _bloodBankServices.GetAllInCity(cityId) ?? [];
 
             var BansksSelected = Banks.Select(d => new SelectListItem
             {

@@ -2,8 +2,8 @@
 {
     public class RecommendedRequest
     {
-        public string Governorate { get; set; }
-        public string blood_type { get; set; }
+        public string Governorate { get; set; } = string.Empty;
+        public string blood_type { get; set; } = string.Empty;
         public int Quantity { get; set; }
     }
 }

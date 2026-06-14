@@ -6,11 +6,11 @@ namespace BloodBankWeb.Core.ViewModels
     {
         public int Id { get; set; }
 
-        public string ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; } = string.Empty;
 
         public int Age { get; set; }
 
-        public string BloodBankId { get; set; }
+        public string BloodBankId { get; set; } = string.Empty;
 
         public DateOnly DateOnly { get; set; }
 

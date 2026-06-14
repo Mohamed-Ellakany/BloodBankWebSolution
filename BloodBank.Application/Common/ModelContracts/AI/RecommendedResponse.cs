@@ -6,11 +6,11 @@ namespace BloodBank.Application.Common.ModelContracts.AI
     {
 
          [JsonPropertyName("BloodBank_Name")]
-        public string BloodBankName { get; set; }
+        public string BloodBankName { get; set; } = string.Empty;
 
         [JsonPropertyName("Blood_Type")]
-        public string BloodType { get; set; }
+        public string BloodType { get; set; } = string.Empty;
 
-        public string Governorate { get; set; }
+        public string Governorate { get; set; } = string.Empty;
     }
 }

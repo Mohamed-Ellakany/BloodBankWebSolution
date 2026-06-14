@@ -30,12 +30,13 @@ namespace BloodBank.Application.Services.Users
 
             var user = await _userManager.FindByIdAsync(userId);
 
-           
+            if (user is null)
+                return Result.Failure(new Error("User.NotFound", "User not found", StatusCodes.Status404NotFound));
 
-            user!.FullName = request.FullName;
+            user.FullName = request.FullName;
             user.BloodTypeId = request.BloodTypeId;
 
-            var result = await _userManager.UpdateAsync(user!);
+            var result = await _userManager.UpdateAsync(user);
 
             if (!result.Succeeded)
             {
@@ -52,8 +53,10 @@ namespace BloodBank.Application.Services.Users
         public async Task<Result> ChangePasswordAsync(string userId, ChangePasswordRequest request)
         {
             var user = await _userManager.FindByIdAsync(userId);
+            if (user is null)
+                return Result.Failure(new Error("User.NotFound", "User not found", StatusCodes.Status404NotFound));
 
-            var result = await _userManager.ChangePasswordAsync(user!, request.CurrentPassword, request.newPassword);
+            var result = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.newPassword);
 
             if (result.Succeeded)
                 return Result.Success();
