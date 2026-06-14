@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 namespace BloodBank.Application.Common.DTOs
 {
     public record ChartDto(
-
-     string Label,
-     int Value
-
-     );
-
+        string BloodTypeName,
+        int Count
+    );
 }

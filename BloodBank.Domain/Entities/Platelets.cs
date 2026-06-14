@@ -2,7 +2,7 @@
 
 namespace BloodBank.Domain.Entities
 {
-    public class Platelets :BaseEntity
+    public class Platelets : BaseEntity, IBloodInventoryItem
     {
 
         public int Id { get; set; }

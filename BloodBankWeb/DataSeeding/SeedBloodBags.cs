@@ -1,26 +1,25 @@
-﻿public static class SeedBloodBags
+public static class SeedBloodBags
 {
     public static async Task SeedAsync(ApplicationDbContext db)
     {
         if (await db.BloodBags.AnyAsync()) return;
 
-        var bloodBankIds = Enumerable.Range(1, 202).ToList(); // 13 to 214 inclusive
-        var bloodTypeIds = Enumerable.Range(1, 8).ToList();     // 8 to 15 inclusive
+        var bloodBankIds = Enumerable.Range(1, 202).ToList();
+        var bloodTypeIds = Enumerable.Range(1, 8).ToList();
 
         int donorCounter = 1;
-        DateTime now = new DateTime(2025, 6, 30); // Hardcoded current date
+        DateTime now = new DateTime(2025, 6, 30);
 
         var random = new Random();
+        var donors = new List<Donor>();
+        var bloodBags = new List<BloodBag>();
 
         foreach (var bankId in bloodBankIds)
         {
             foreach (var bloodTypeId in bloodTypeIds)
             {
-                // Ensure donor donated at least 90 days ago
                 DateTime donationDate = now.AddDays(-90 - random.Next(5, 15));
-
-                // Ensure blood bag expires in the future (at least 1 day after now)
-                DateTime expirationDate = now.AddDays(random.Next(1, 60)); // 1-60 days in the future
+                DateTime expirationDate = now.AddDays(random.Next(1, 60));
 
                 var donor = new Donor
                 {
@@ -33,31 +32,30 @@
                     BloodTypeId = bloodTypeId
                 };
 
-                db.Donors.Add(donor);
-                await db.SaveChangesAsync();
-
-                var donorBank = new DonorBank
+                donor.DonorBanks.Add(new DonorBank
                 {
-                    DonorId = donor.Id,
+                    Donor = donor,
                     BloodBankId = bankId
-                };
-                db.DonorBanks.Add(donorBank);
+                });
 
-                var bloodBag = new BloodBag
+                bloodBags.Add(new BloodBag
                 {
                     BloodBankId = bankId,
                     BloodTypeId = bloodTypeId,
-                    DonorId = donor.Id,
+                    Donor = donor,
                     Quantity = 1,
                     CreationDate = donationDate,
                     ExpirationDate = expirationDate,
                     IsDeleted = false
-                };
-                db.BloodBags.Add(bloodBag);
+                });
 
-                await db.SaveChangesAsync();
+                donors.Add(donor);
                 donorCounter++;
             }
         }
+
+        await db.Donors.AddRangeAsync(donors);
+        await db.BloodBags.AddRangeAsync(bloodBags);
+        await db.SaveChangesAsync();
     }
 }

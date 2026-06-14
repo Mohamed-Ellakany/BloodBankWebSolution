@@ -1,10 +1,4 @@
-﻿using BloodBank.Application.Common.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BloodBank.Application.Common.DTOs;
 
 namespace BloodBank.Application.Services.Home
 {
@@ -17,37 +11,31 @@ namespace BloodBank.Application.Services.Home
             _unitOfWork = unitOfWork;
         }
 
-        public List<(string bloodTypeName, int count)> GetValues()
+        public DashboardSummaryDto GetDashboardSummary()
         {
-            return _unitOfWork.BloodTypes.GetAll()
-             .Select(bt => new
-             {
-                 BloodTypeName = bt.Name,
-                 Count = _unitOfWork.BloodBags.FindAll(b => !b.IsDeleted && b.ExpirationDate > DateTime.Now).Count(bb => bb.BloodTypeId == bt.Id)
-             })
-             .ToList()
-             .Select(b => (b.BloodTypeName, b.Count))
-             .ToList();
+            var activeBloodBagCounts = _unitOfWork.BloodBags
+                .GetQueryable()
+                .AsNoTracking()
+                .Where(bag => !bag.IsDeleted && bag.ExpirationDate > DateTime.Now)
+                .GroupBy(bag => bag.BloodTypeId)
+                .Select(group => new { BloodTypeId = group.Key, Count = group.Count() })
+                .ToDictionary(item => item.BloodTypeId, item => item.Count);
 
-        }
+            var bloodCounts = _unitOfWork.BloodTypes
+                .GetQueryable()
+                .AsNoTracking()
+                .OrderBy(bloodType => bloodType.Name)
+                .Select(bloodType => new { bloodType.Id, bloodType.Name })
+                .ToList()
+                .Select(bloodType => new ChartDto(
+                    bloodType.Name,
+                    activeBloodBagCounts.GetValueOrDefault(bloodType.Id)))
+                .ToList();
 
-        public int GetCountOfDonors()
-        {
-            return _unitOfWork.Donors.Count();
-        }
+            var numberOfBloodBags = activeBloodBagCounts.Values.Sum();
+            var numberOfDonors = _unitOfWork.Donors.GetQueryable().AsNoTracking().Count();
 
-        public int GetCountOfAll()
-        {
-            return _unitOfWork.BloodBags.FindAll(b => !b.IsDeleted && b.ExpirationDate > DateTime.Now).Count();
-        }
-
-        public List<ChartDto> GetSelectedValues()
-        {
-            var data = _unitOfWork.BloodTypes.GetAll()
-             .Select(bt => new ChartDto(bt.Name, _unitOfWork.BloodBags.Count(bb => bb.BloodTypeId == bt.Id))).ToList();
-
-
-            return data;
+            return new DashboardSummaryDto(numberOfBloodBags, numberOfDonors, bloodCounts);
         }
     }
 }

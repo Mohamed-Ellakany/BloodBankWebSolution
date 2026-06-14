@@ -6,8 +6,6 @@
 
         public int NumberOfDonors { get; set; }
 
-        public IEnumerable<(string BloodTypeName, int Count)> BloodCounts { get; set; }
-
-
+        public IEnumerable<ChartDto> BloodCounts { get; set; } = [];
     }
 }

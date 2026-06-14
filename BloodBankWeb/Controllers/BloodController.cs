@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace BloodBankWeb.Controllers
 {
     [Authorize(Roles = AppRoles.subAdmin)]
-    public class BloodController(IUnitOfWork unitOfWork, IMapper mapper, IBloodSevrice bloodSevrice, IDonorsServices donorsServices, IBloodTypesServices bloodTypesServices, IBloodBankServices bloodBankServices, IDonorBanksServices donorBanksServices, UserManager<ApplicationUser> userManager) : Controller
+    public class BloodController(IMapper mapper, IBloodSevrice bloodSevrice, IDonorsServices donorsServices, IBloodTypesServices bloodTypesServices, IBloodBankServices bloodBankServices, IDonorBanksServices donorBanksServices, UserManager<ApplicationUser> userManager) : Controller
     {
         private readonly IBloodSevrice _bloodSevrice = bloodSevrice;
         private readonly IDonorsServices _donorsServices = donorsServices;

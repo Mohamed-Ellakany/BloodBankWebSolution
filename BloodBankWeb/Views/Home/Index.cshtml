@@ -1,4 +1,5 @@
-﻿@model HomeViewModel
+@model HomeViewModel
+@using System.Text.Json
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -17,7 +18,7 @@
                     <!--begin::Title-->
                     <h3 class="fw-bold text-white fs-5x mb-5 ms-n1 custom-header">
                         <img src="~/assets/images/shoryan---logo[1].png" class="h-100px" />
-                        </h3>
+                    </h3>
                     <!--end::Title-->
                     <!--begin::Description-->
                     <span class="fw-bold fs-4 mb-8 d-block lh-0 text-white">For Better Life</span>
@@ -28,11 +29,11 @@
                         <!--begin::Item-->
                         <div class="d-flex align-items-center me-5">
                             <!--begin::Icon-->
-                            <i class="las la-briefcase fs-2 text-white me-3" ></i>
+                            <i class="las la-briefcase fs-2 text-white me-3"></i>
 
                             <!--end::Icon-->
                             <!--begin::Info-->
-                            <span class="fw-semibold text-white fs-6" >@Model.NumberOfBloodBags</span>
+                            <span class="fw-semibold text-white fs-6">@Model.NumberOfBloodBags</span>
                             <!--end::Info-->
                         </div>
                         <!--end::Item-->
@@ -82,19 +83,19 @@
                     <div class="card shadow-sm col-md-2 border border-1 border-dashed border-primary ">
                         <div class="card-header">
                             <h3 class="card-title">@blood.BloodTypeName</h3>
-                          
+
                         </div>
                         <div class="card-body p-3">
-                            @if(blood.Count == 0)
+                            @if (blood.Count == 0)
                             {
                                 <p>no items in stock</p>
                             }
-                            else{
-
+                            else
+                            {
                                 <div class="fs-2 fw-bold counted" data-kt-countup="true" data-kt-countup-value="@blood.Count" data-kt-countup-prefix="$" data-kt-initialized="0">@blood.Count bag</div>
                             }
                         </div>
-                       
+
                     </div>
                 }
             </div>
@@ -121,26 +122,26 @@
                     <span class="text-gray-400 mt-1 fw-semibold fs-6"></span>
                 </h3>
                 <!--end::Title-->
-               
+
             </div>
             <!--end::Header-->
             <!--begin::Body-->
             <div class="card-body pt-3 pb-4 mb-5">
-                <div id="chart" ></div>
+                <div id="chart"></div>
             </div>
             <!--end: Card Body-->
         </div>
         <!--end::Tables widget 13-->
     </div>
     <!--end::Col-->
-   
+
 </div>
 <!--end::Row-->
 @section Scripts
 {
+    <script>
+        window.bloodBankChartData = @Html.Raw(JsonSerializer.Serialize(Model.BloodCounts));
+    </script>
 
-    
-    <script src="~/js/chartsjs.js" asp-append-version="true" ></script>
- 
-
+    <script src="~/js/chartsjs.js" asp-append-version="true"></script>
 }

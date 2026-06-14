@@ -8,4 +8,5 @@ global using Microsoft.EntityFrameworkCore;
 global using System.ComponentModel.DataAnnotations;
 global using BloodBank.Domain.Consts;
 global using BloodBank.Application.Common.Interfaces;
+global using BloodBank.Application.Common.DTOs;
 global using BloodBank.Infrastructure.Persistence;

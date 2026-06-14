@@ -14,9 +14,9 @@ namespace BloodBank.Application.Services.Blood
 
          IEnumerable<BloodBag> GetAllDeleted();
 
-        IEnumerable<BloodBagResponse> GetAllInType(int BloodTypeId);
+        IEnumerable<BloodBagResponse>? GetAllInType(int BloodTypeId);
 
-        IEnumerable<BloodBagResponse> GetAllInTypeInBank(int BloodTypeId, int BankId);
+        IEnumerable<BloodBagResponse>? GetAllInTypeInBank(int BloodTypeId, int BankId);
 
        BloodBag? FindById(int id);
 

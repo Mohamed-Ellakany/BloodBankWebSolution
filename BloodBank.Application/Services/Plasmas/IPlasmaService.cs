@@ -14,9 +14,9 @@ namespace BloodBank.Application.Services.Plasmas
 
         IEnumerable<Plasma> GetAllDeleted();
 
-        IEnumerable<PlasmaResponse> GetAllInType(int BloodTypeId);
+        IEnumerable<PlasmaResponse>? GetAllInType(int BloodTypeId);
 
-        IEnumerable<PlasmaResponse> GetAllInTypeInBank(int BloodTypeId, int BankId);
+        IEnumerable<PlasmaResponse>? GetAllInTypeInBank(int BloodTypeId, int BankId);
 
         Plasma? FindById(int id);
 

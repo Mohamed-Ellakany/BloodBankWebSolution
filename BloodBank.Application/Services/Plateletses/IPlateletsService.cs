@@ -13,9 +13,9 @@ namespace BloodBank.Application.Services.Plateletses
 
         public IEnumerable<Platelets> GetAllDeleted();
 
-        IEnumerable<PlateletsesResponse> GetAllInType(int BloodTypeId);
+        IEnumerable<PlateletsesResponse>? GetAllInType(int BloodTypeId);
 
-        IEnumerable<PlateletsesResponse> GetAllInTypeInBank(int BloodTypeId, int BankId);
+        IEnumerable<PlateletsesResponse>? GetAllInTypeInBank(int BloodTypeId, int BankId);
 
         Platelets? FindById(int id);
 

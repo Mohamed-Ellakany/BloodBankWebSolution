@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BloodBank.Domain.Entities
 {
-    public class BloodBag : BaseEntity
+    public class BloodBag : BaseEntity, IBloodInventoryItem
     {
         public int Id { get; set; }
          

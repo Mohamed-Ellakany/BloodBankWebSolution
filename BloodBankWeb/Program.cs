@@ -59,27 +59,25 @@ namespace BloodBankWeb
             app.UseAuthentication();
             app.UseAuthorization();
 
-            var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-            using var scope = scopeFactory.CreateScope();
-            var db = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            if (builder.Configuration.GetValue<bool>("DataSeeding:Enabled"))
+            {
+                var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+                using var scope = scopeFactory.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-           
-             await SeedCities.SeedingCities(db);
-            
-            await SeedData.SeedingData(db);
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            await SeedBloodBanks.SeedingBloodBanks(db);
+                await SeedCities.SeedingCities(db);
+                await SeedData.SeedingData(db);
+                await SeedBloodBanks.SeedingBloodBanks(db);
+                await SeedRolesAsync.seedRoles(roleManager);
+                await SeedUsersAsync.AppAdmin(userManager);
 
+                if (builder.Configuration.GetValue<bool>("DataSeeding:SeedDemoBloodBags"))
+                    await SeedBloodBags.SeedAsync(db);
+            }
 
-            await SeedRolesAsync.seedRoles(roleManager);
-
-            await SeedUsersAsync.AppAdmin(userManager);
-
-            await SeedBloodBags.SeedAsync(db);
-            
-          
 
             app.MapControllerRoute(
                 name: "default",

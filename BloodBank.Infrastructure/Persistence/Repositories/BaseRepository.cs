@@ -75,7 +75,7 @@ namespace BloodBank.Infrastructure.Persistence.Repositories
         public IEnumerable<T> FindAll(Expression<Func<T, bool>> predicate,
             Expression<Func<T, object>>? orderBy = null, string? orderByDirection = OrderBy.Ascending)
         {
-            IQueryable<T> query = _context.Set<T>().Where(predicate);
+            IQueryable<T> query = _context.Set<T>().AsNoTracking().Where(predicate);
 
             if (orderBy is not null)
             {
@@ -93,7 +93,7 @@ namespace BloodBank.Infrastructure.Persistence.Repositories
         public IEnumerable<T> FindAll(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include,
             Expression<Func<T, object>>? orderBy = null, string? orderByDirection = OrderBy.Ascending)
         {
-            IQueryable<T> query = _context.Set<T>().AsQueryable();
+            IQueryable<T> query = _context.Set<T>().AsNoTracking();
 
             if (include is not null)
                 query = include(query);

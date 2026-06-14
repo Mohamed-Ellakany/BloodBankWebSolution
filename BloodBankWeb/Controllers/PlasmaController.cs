@@ -17,8 +17,8 @@ using System.Threading.Tasks;
 
 namespace BloodBankWeb.Controllers
 {
-    [Authorize(Roles = AppRoles.subAdmin)]
-    public class PlasmaController(IUnitOfWork unitOfWork,UserManager<ApplicationUser> userManager ,IMapper mapper, IPlasmaService plasmaService, IDonorsServices donorsServices, IBloodTypesServices bloodTypesServices, IBloodBankServices bloodBankServices, IDonorBanksServices donorBanksServices, IBloodSevrice bloodSevrice) : Controller
+	[Authorize(Roles = AppRoles.subAdmin)]
+	public class PlasmaController(UserManager<ApplicationUser> userManager ,IMapper mapper, IPlasmaService plasmaService, IDonorsServices donorsServices, IBloodTypesServices bloodTypesServices, IBloodBankServices bloodBankServices, IDonorBanksServices donorBanksServices, IBloodSevrice bloodSevrice) : Controller
 	{
         private readonly IDonorsServices _donorsServices = donorsServices;
         private readonly IPlasmaService _plasmaService = plasmaService;

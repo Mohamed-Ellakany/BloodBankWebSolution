@@ -22,27 +22,13 @@ private readonly IHomeService _homeService;
 
         public IActionResult Index()
         {
-            // Fetch all blood types with their blood bag counts
-            var bloodCounts = _homeService.GetValues();
+            var dashboardSummary = _homeService.GetDashboardSummary();
 
-            //var bloodCounts = _unitOfWork.BloodTypes.GetAll()
-            //    .Select(bt => new
-            //    {
-            //        BloodTypeName = bt.Name,
-            //        Count = _unitOfWork.BloodBags.FindAll(b => !b.IsDeleted && b.ExpirationDate > DateTime.Now).Count(bb => bb.BloodTypeId == bt.Id)
-            //    })
-            //    .ToList()
-            //    .Select(b => (b.BloodTypeName, b.Count))
-            //    .ToList();
-
-            // Prepare the view model
             var viewModel = new HomeViewModel
             {
-                NumberOfBloodBags = _homeService.GetCountOfAll(),
-
-                NumberOfDonors =_homeService.GetCountOfDonors(),
-
-                BloodCounts = bloodCounts
+                NumberOfBloodBags = dashboardSummary.NumberOfBloodBags,
+                NumberOfDonors = dashboardSummary.NumberOfDonors,
+                BloodCounts = dashboardSummary.BloodCounts
             };
 
             return View(viewModel);
@@ -52,20 +38,13 @@ private readonly IHomeService _homeService;
         [AjaxOnly]
         public IActionResult GetDataOfChart()
         {
-            //var data = _unitOfWork.BloodTypes.GetAll()
-            //    .Select(bt => new ChartViewModel
-            //    {
-            //        Label = bt.Name,
-            //        Value = _unitOfWork.BloodBags.Count(bb => bb.BloodTypeId == bt.Id)
-            //    }).ToList();
-
-            var data = _homeService.GetSelectedValues();
+            var data = _homeService.GetDashboardSummary().BloodCounts;
 
             var result = data.Select(dto => new ChartViewModel
             {
-                Label = dto.Label,
-                Value = dto.Value
-          
+                Label = dto.BloodTypeName,
+                Value = dto.Count
+
             }).ToList();
 
             return Ok(result);

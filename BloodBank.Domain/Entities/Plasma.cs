@@ -2,7 +2,7 @@
 
 namespace BloodBank.Domain.Entities
 {
-    public class Plasma :BaseEntity
+    public class Plasma : BaseEntity, IBloodInventoryItem
     {
         public int Id { get; set; }
 
