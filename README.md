@@ -25,7 +25,7 @@ BloodBankWeb              MVC admin web app
 ```
 
 ## Run locally
-Requires the .NET 10 SDK and SQL Server (LocalDB is the default in `appsettings.json`).
+Requires the .NET 10 SDK and SQL Server (LocalDB is the default in `appsettings.json`) .
 
 1. Set these values with user secrets or `appsettings.Development.json`: the `Jwt` section, `EmailSettings` (Host, Port, Email, Password), `HangfireSettings` (UserName, Password) and `AIModel:ApiUrl`.
 2. Create the database:
